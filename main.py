@@ -32,11 +32,41 @@ class Main(object):
         search_bar = LabelFrame(centerRightFrame,width=440,height=75,
                                 text="Arama Kutusu",bg="#9bc9ff")
         search_bar.pack(fill=BOTH)
+        self.lbl_search = Label(search_bar,text="Arama yapın : ",font="arial 12 bold",
+                                bg="#9bc9ff",fg="white")
+        self.lbl_search.grid(row=0,column=0,padx=20,pady=10)
+        self.ent_search = Entry(search_bar,width=30,bd=10)
+        self.ent_search.grid(row = 0, column = 1, columnspan = 3, padx = 10,pady=10)
+        self.btn_search = Button(search_bar, text="Arama Yap",font="arial 12 bold",
+                                 bg="#fcc324",fg="white")
+        self.btn_search.grid(row=0,column=4,padx=20,pady=10)
+
+
+
+
 
         # List bar
         list_bar = LabelFrame(centerRightFrame,width=440,height=175,
                               text="Listeleme",bg="#fcc324")
         list_bar.pack(fill=BOTH)
+        lbl_list = Label(list_bar,text = "Sıralama",font="times 16 bold",
+                         fg="#2488ff",bg="#fcc324")
+        lbl_list.grid(row=0,column=2)
+        self.listChoice = IntVar()
+        rb1 =Radiobutton(list_bar,text="Tüm Kitaplar",var =self.listChoice,
+                         value = 1,bg = "#fcc324")
+        rb2 =Radiobutton(list_bar,text="Kütüphane Mevcut Kitaplar",var =self.listChoice,
+                         value = 2,bg = "#fcc324")
+        rb3 =Radiobutton(list_bar,text="Kitap Ödünç Al",var =self.listChoice,
+                         value = 3,bg = "#fcc324")
+        rb1.grid(row=1,column=0)
+        rb2.grid(row=1,column=1)
+        rb3.grid(row=1,column=2)
+
+        btn_list = Button(list_bar, text = "Listele", bg = "#2488ff",
+                          fg = "white",font="arial 12 bold")
+        btn_list.grid(row=1,column=3, padx = 40, pady = 10)
+
 
         # add book button
         self.iconbook = PhotoImage(file ="icons/add_book.png",width=5,height=5)
@@ -66,8 +96,6 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-print("Hello")
 
 
 
