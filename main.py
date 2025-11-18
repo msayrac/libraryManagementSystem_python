@@ -67,7 +67,17 @@ class Main(object):
                           fg = "white",font="arial 12 bold")
         btn_list.grid(row=1,column=3, padx = 40, pady = 10)
 
+        # title and image
+        image_bar = Frame(centerRightFrame, width =440, height = 350)
+        image_bar.pack(fill=BOTH)
+        self.title_right =Label(image_bar, text="Kütüphanemize Hoş Geldiniz",font="arial 16 bold")
+        self.title_right.grid(row=0)
+        self.img_library = PhotoImage(file="icons/library.png")
+        self.lblImg = Label(image_bar,image=self.img_library)
+        self.lblImg.grid(row=1)
+        
 
+        ################################## Tool BAR ##############################
         # add book button
         self.iconbook = PhotoImage(file ="icons/add_book.png",width=5,height=5)
         self.btnbook = Button(topFrame,text="Kitap Ekle",image=self.iconbook,compound=LEFT,
@@ -81,10 +91,63 @@ class Main(object):
         self.btnmember.pack(side=LEFT)
 
         # give book
-
         self.icongive = PhotoImage(file="icons/givebook.png",width=5,height=5)
         self.btngive = Button(topFrame,text="Kitap Teslim",font="arial 12 bold",compound=LEFT)
         self.btngive.pack(side=LEFT)
+
+################################## Tabs #############################################
+            ################## Tab1######################
+        self.tabs = ttk.Notebook(centerLeftFrame, width = 900, height =660)
+        self.tabs.pack()
+        self.tab1_icon = PhotoImage(file = "icons/add_book.png")
+        self.tab2_icon = PhotoImage(file = "icons/members.png")
+
+        self.tab1 = ttk.Frame(self.tabs)
+        self.tab2 = ttk.Frame(self.tabs)
+
+        self.tabs.add(self.tab1,text="Kütüphane Yönetimi",image = self.tab1_icon,compound=LEFT)
+        self.tabs.add(self.tab2,text="İstatikler",image = self.tab2_icon,compound=LEFT)
+
+        # list books
+        self.list_books = Listbox(self.tab1, width=40,height=30,bd=5, font="times 12 bold")
+        self.sb = Scrollbar(self.tab1,orient=VERTICAL)
+        self.list_books.grid(row=0,column=0,padx =(10,0), pady =10, sticky=N)
+        self.sb.config(command=self.list_books.yview)
+        self.list_books.config(yscrollcommand=self.sb.set)
+        self.sb.grid(row=0, column = 0, sticky=N+S+E)
+
+        # list detail
+        self.list_details = Listbox(self.tab1,width=80, height=30, bd=5, font = "times 12 bold")
+        self.list_details.grid(row=0,column=1,padx=(10,0), pady=10, sticky=N)
+        
+            ################## Tab1######################
+            ############# statistics###############
+        self.lbl_book_count = Label(self.tab2,text="",pady=20,font="vergana 14 bold")
+        self.lbl_book_count.grid(row=0)
+        self.lbl_member_count =Label(self.tab2,text="",pady=20,font="vergana 14 bold")
+        self.lbl_member_count.grid(row=1,sticky=W)
+        self.lbl_taken_count = Label(self.tab2,text="",pady=20, font="verdana 14 bold")
+        self.lbl_taken_count.grid(row=2,sticky=W)
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 def main():
     root = Tk()
