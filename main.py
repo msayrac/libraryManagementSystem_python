@@ -1,16 +1,49 @@
 from tkinter import *
 from tkinter import ttk
 import sqlite3
-import addBook
+import addBook,addMember
+ 
+
 
 con = sqlite3.connect("library.db")
 cur = con.cursor()
 
-
-
 class Main(object):
     def __init__(self,master):
         self.master = master
+
+        def displayBooks(self):
+            books = cur.execute("SELECT * FROM books").fetchall()
+
+            count = 0
+            for book in books:
+                print(book)
+                self.list_books.insert(count,str(book[0])+ "-" + book[1])
+                count += 1
+            
+            def bookInfo(evt):
+                value = str(self.list_books.get(self.list_books.curselection()))
+                id = value.split('-')[0]
+                book = cur.execute("SELECT * FROM books WHERE book_id =?",(id,))
+                book_info = book.fetchall()
+                print(book_info)
+
+                self.list_details.delete(0,'end')
+
+                self.list_details.insert(0,"Kitap adı :"+book_info[0][1])
+                self.list_details.insert(1,"Yazar adı :"+book_info[0][2])
+                self.list_details.insert(2,"Sayfa :"+book_info[0][3])
+                self.list_details.insert(3,"Dil :"+book_info[0][4])
+
+                if book_info[0][5] == 0:
+                    self.list_details.insert(4, "Status : Available")
+                else:
+                    self.list_details.insert(4, "Status : Not Available")
+
+
+
+
+            self.list_books.bind('<<ListboxSelect>>',bookInfo)
 
         # frames
         mainFrame =Frame(self.master)
@@ -90,9 +123,9 @@ class Main(object):
 
         #add member button
         self.iconmember =PhotoImage(file="icons/users.png",width=5,height=5)
-        self.btnmember = Button(topFrame,text="Üye Ekle",font="arial 12 bold",padx=10)
+        self.btnmember = Button(topFrame,text="Üye Ekle",font="arial 12 bold",padx=10,command=self.addMember1)
         self.btnmember.configure(image=self.iconmember,compound=LEFT)
-        self.btnmember.pack(side=LEFT)
+        self.btnmember.pack(side=LEFT,padx=10)
 
         # give book
         self.icongive = PhotoImage(file="icons/givebook.png",width=5,height=5)
@@ -133,10 +166,17 @@ class Main(object):
         self.lbl_taken_count = Label(self.tab2,text="",pady=20, font="verdana 14 bold")
         self.lbl_taken_count.grid(row=2,sticky=W)
 
+        # functions
+        displayBooks(self)
+
+
+
+
     def addBook(self):
         add = addBook.AddBook()
 
-
+    def addMember1(self):
+        member = addMember.AddMember()
 
 
 
