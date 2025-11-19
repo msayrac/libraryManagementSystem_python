@@ -101,7 +101,7 @@ class Main(object):
         rb3.grid(row=1,column=2)
 
         btn_list = Button(list_bar, text = "Listele", bg = "#2488ff",
-                          fg = "white",font="arial 12 bold")
+                          fg = "white",font="arial 12 bold",command= self.listBooks)
         btn_list.grid(row=1,column=3, padx = 40, pady = 10)
 
         # title and image
@@ -191,7 +191,39 @@ class Main(object):
             self.list_books.insert(count,str(book[0])+"-"+book[1])
             count += 1
 
-        
+    
+    def listBooks(self):
+        value = self.listChoice.get()
+
+        if value==1:
+            allbooks = cur.execute("SELECT * FROM books").fetchall()
+            self.list_books.delete(0,END)
+
+            count = 0
+            for book in allbooks:
+                self.list_books.insert(count, str(book[0])+ "-" + book[1])
+                count += 1
+        elif value ==2:
+            books_in_library = cur.execute("SELECT * FROM books WHERE book_status =?",(0,)).fetchall()
+            self.list_books.delete(0,END)
+
+            count = 0
+            for book in books_in_library:
+                self.list_books.insert(count, str(book[0])+ "-" + book[1])
+                count += 1
+        else:
+            taken_books = cur.execute("SELECT * FROM books WHERE book_status = ?",(1,)).fetchall()
+
+            self.list_books.delete(0,END)
+
+            count = 0
+            for book in taken_books:
+                self.list_books.insert(count, str(book[0])+ "-" + book[1])
+                count += 1
+
+
+
+
 
 
 def main():
