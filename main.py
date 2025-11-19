@@ -1,5 +1,12 @@
 from tkinter import *
 from tkinter import ttk
+import sqlite3
+import addBook
+
+con = sqlite3.connect("library.db")
+cur = con.cursor()
+
+
 
 class Main(object):
     def __init__(self,master):
@@ -42,9 +49,6 @@ class Main(object):
         self.btn_search.grid(row=0,column=4,padx=20,pady=10)
 
 
-
-
-
         # List bar
         list_bar = LabelFrame(centerRightFrame,width=440,height=175,
                               text="Listeleme",bg="#fcc324")
@@ -78,10 +82,10 @@ class Main(object):
         
 
         ################################## Tool BAR ##############################
-        # add book button
+        # add book
         self.iconbook = PhotoImage(file ="icons/add_book.png",width=5,height=5)
         self.btnbook = Button(topFrame,text="Kitap Ekle",image=self.iconbook,compound=LEFT,
-                              font="arial 12 bold")
+                              font="arial 12 bold",command=self.addBook)
         self.btnbook.pack(side=LEFT, padx=10)
 
         #add member button
@@ -129,20 +133,8 @@ class Main(object):
         self.lbl_taken_count = Label(self.tab2,text="",pady=20, font="verdana 14 bold")
         self.lbl_taken_count.grid(row=2,sticky=W)
 
-
-
-
-
-
-    
-
-
-
-
-
-
-
-
+    def addBook(self):
+        add = addBook.AddBook()
 
 
 
