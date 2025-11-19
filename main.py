@@ -78,7 +78,7 @@ class Main(object):
         self.ent_search = Entry(search_bar,width=30,bd=10)
         self.ent_search.grid(row = 0, column = 1, columnspan = 3, padx = 10,pady=10)
         self.btn_search = Button(search_bar, text="Arama Yap",font="arial 12 bold",
-                                 bg="#fcc324",fg="white")
+                                 bg="#fcc324",fg="white", command = self.searchBooks)
         self.btn_search.grid(row=0,column=4,padx=20,pady=10)
 
 
@@ -179,6 +179,19 @@ class Main(object):
         member = addMember.AddMember()
 
 
+    def searchBooks(self):
+        value = self.ent_search.get()
+        search = cur.execute("SELECT * FROM books WHERE book_name LIKE ?", ('%'+value+'%',)).fetchall()
+        print(search)
+        self.list_books.delete(0,END)
+
+        count=0
+
+        for book in search:
+            self.list_books.insert(count,str(book[0])+"-"+book[1])
+            count += 1
+
+        
 
 
 def main():
@@ -191,11 +204,6 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-
-
-
 
 
 
