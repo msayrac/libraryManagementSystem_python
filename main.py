@@ -12,10 +12,26 @@ class Main(object):
     def __init__(self,master):
         self.master = master
 
+        def displayStatistics(evt):
+            count_books =cur.execute("SELECT COUNT(book_id) FROM books").fetchall()
+            count_members = cur.execute("SELECT COUNT(member_id) FROM member").fetchall()
+            taken_books =cur.execute("SELECT COUNT(book_status) from books WHERE book_status=1").fetchall()
+
+            print(count_books)
+            self.lbl_book_count.config(text="Toplam Kitap : "+ str(count_books[0][0])+ " kitap mevcuttur.")
+            self.lbl_member_count.config(text = "Toplam Üye : "+ str(count_members[0][0]))
+            self.lbl_taken_count.config(text = "Alınan Kitaplar : "+str(taken_books[0][0]))
+
+            displayBooks(self)
+
+
+
         def displayBooks(self):
             books = cur.execute("SELECT * FROM books").fetchall()
-
             count = 0
+
+            self.list_books.delete(0,END)
+
             for book in books:
                 print(book)
                 self.list_books.insert(count,str(book[0])+ "-" + book[1])
@@ -41,9 +57,9 @@ class Main(object):
                     self.list_details.insert(4, "Status : Not Available")
 
 
-
-
             self.list_books.bind('<<ListboxSelect>>',bookInfo)
+            self.tabs.bind('<<NotebookTabChanged>>',displayStatistics)
+            # self.tabs.bind('<ButtonRelease-1>',displayBooks)
 
         # frames
         mainFrame =Frame(self.master)
@@ -168,6 +184,7 @@ class Main(object):
 
         # functions
         displayBooks(self)
+        displayStatistics(self)
 
 
 
@@ -220,7 +237,6 @@ class Main(object):
             for book in taken_books:
                 self.list_books.insert(count, str(book[0])+ "-" + book[1])
                 count += 1
-
 
 
 
